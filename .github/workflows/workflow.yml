@@ -5,6 +5,8 @@ on:
     branches:
       - main
   workflow_dispatch: # Allows manual triggering from the GitHub UI
+  schedule:
+    - cron: "30 3,11,15 * * *"
 
 jobs:
   run-powershell:
