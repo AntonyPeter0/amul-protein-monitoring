@@ -34,3 +34,15 @@ if ($responseGet) {
 } else {
     Write-Output "GET request failed."
 }
+
+$MailArgs = @{
+    From       = 'Antony'
+    To         = '$env:TO_USERNAME'
+    Subject    = 'Amul Product is Back in Stock'
+    Body       = 'Urgent Please Buy'
+    SmtpServer = 'smtp.gmail.com'
+    Port       = 587
+    UseSsl     = $true
+    Credential = New-Object pscredential '$env:MAIL_USERNAME',$('$env:MAIL_PASSWORD' |ConvertTo-SecureString -AsPlainText -Force)
+}
+Send-MailMessage @MailArgs
