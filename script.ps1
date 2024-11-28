@@ -37,18 +37,20 @@ else {
 $responseGet = Invoke-RestMethod -Uri $getUrl -Method Get -WebSession $webSession
 
 
-if ($responseGet) {
+if ($responseGet.data) {
     Write-Output "GET request successful. Product data retrieved:"
-    Write-Output $responseGet
-}
-else {
-    Write-Output "GET request failed."
-}
+    
 
-foreach ( $item in $responseGet.data) {
-    if (($item.name -match 'Blueberry' -or $item.name -match 'Rose') -and $item.available -ne '0') {  
-        $Body += $item.name
-        $Body += ' is in stock'
-        Send-MailMessage -To $To -From $From -Subject $Subject -Body $Body -Credential $Credential -SmtpServer $SmtpServer -UseSsl -Port $Port
+    foreach ( $item in $responseGet.data) {
+        if (($item.name -match 'Blueberry' -or $item.name -match 'Lassi') -and $item.available -ne '0') {  
+            $Body += $item.name
+            $Body += ' is in stock'
+            Send-MailMessage -To $To -From $From -Subject $Subject -Body $Body -Credential $Credential -SmtpServer $SmtpServer -UseSsl -Port $Port
+        }
     }
 }
+else {
+
+    Send-MailMessage -To $To -From $From -Subject 'Data fetch failed' -Credential $Credential -SmtpServer $SmtpServer -UseSsl -Port $Port
+}
+
