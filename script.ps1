@@ -46,7 +46,7 @@ else {
 }
 
 foreach ( $item in $responseGet.data) {
-    if (($item.name -match 'Blueberry' -or $item.name -match 'Rose') -and $item.available -eq '0') {  
+    if (($item.name -match 'Blueberry' -or $item.name -match 'Rose') -and $item.available -ne '0') {  
         $Body += $item.name
         $Body += ' is in stock'
         Send-MailMessage -To $To -From $From -Subject $Subject -Body $Body -Credential $Credential -SmtpServer $SmtpServer -UseSsl -Port $Port
